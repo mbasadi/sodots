@@ -3,7 +3,7 @@ node_js:
   - 'stable'
 cache: npm
 install: 
-  -npm ci
+  -npm 
   directories:
     - node_modules
 script:
