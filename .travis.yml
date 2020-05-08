@@ -1,7 +1,9 @@
 language: node_js
 node_js:
   - 'stable'
-cache:
+cache: npm
+install: 
+  -npm ci
   directories:
     - node_modules
 script:
