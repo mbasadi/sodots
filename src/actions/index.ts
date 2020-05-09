@@ -1,2 +1,2 @@
-export * from './sodos';
 export * from './types';
+export * from './sodos';
