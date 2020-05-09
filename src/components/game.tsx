@@ -54,7 +54,7 @@ class game extends React.Component<AppProps, AppState> {
           <div onClick={() => this.onNewGameClick(this.props.Sodos)}>
             New Game Pofiuz
           </div>
-          <div>Move By Pofiuظ={this.state.move}</div>
+          <div>Move By Pofiu={this.state.move}</div>
           <div>result Pofiuz={this.state.result}</div>
         </div>
       </div>
