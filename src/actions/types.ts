@@ -1,8 +1,9 @@
-import { NewGameAction, SelectedItem } from './sodos';
+import { NewGameAction, SelectedItem, MoveItem } from './sodos';
 
 export enum ActionTypes {
-  newgame,
-  selecteditem,
+  NEW_GAME,
+  SELECTED_ITEM,
+  MOVE_ITEM,
 }
 
-export type Action = NewGameAction | SelectedItem;
+export type Action = NewGameAction | SelectedItem | MoveItem;

@@ -1,14 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Sodo, newgame, selecteditem } from '../actions';
+import { Sodo, newgame, selecteditem, keyboardmove } from '../actions';
 import { StoreState } from '../reducers';
+import 'antd/dist/antd.css';
+import { Button, Result, Col } from 'antd';
 import '../assets/styles/game.scss';
+const style = { background: '#023', padding: '8px 0' };
 
 interface AppProps {
-  Sodos: Sodo;
+  SoDos: Sodo;
 
   newgame: typeof newgame;
   selecteditem: typeof selecteditem;
+  keyboardmove: typeof keyboardmove;
 }
 
 interface AppState {
@@ -21,49 +25,83 @@ class game extends React.Component<AppProps, AppState> {
     super(props);
 
     this.state = { move: 0, result: 'Not Win Yet "Kale Kiri"' };
+    this.onKeyPressed = this.onKeyPressed.bind(this);
   }
-  onItemClick = (id: number, sodo: Sodo): void => {
-    this.props.selecteditem(id - 1, sodo);
-    this.setState({ move: this.props.Sodos.move });
-    if (this.props.Sodos.result) {
+  componentDidMount() {
+    window.addEventListener('keydown', this.onKeyPressed);
+  }
+
+  onKeyPressed = (e: any) => {
+    this.props.keyboardmove(this.props.SoDos, e.keyCode);
+    this.setState({ move: this.props.SoDos.move });
+    if (this.props.SoDos.result) {
       this.setState({ result: 'You Win bitch' });
+    } else {
+      this.setState({ result: 'Not Win Yet "Kale Kiri"' });
     }
   };
-  gameBoard(sodo: Sodo): JSX.Element[] {
-    return this.props.Sodos.id.map((id) => {
-      return (
-        <div
-          className="card"
-          key={id}
-          onClick={() => this.onItemClick(id, sodo)}
-        >
-          {sodo.title[id - 1]}
-        </div>
-      );
+  onItemClick = (id: number, SoDo: Sodo): void => {
+    this.props.selecteditem(id - 1, SoDo);
+    this.setState({ move: this.props.SoDos.move });
+    if (this.props.SoDos.result) {
+      this.setState({ result: 'You Win bitch' });
+    } else {
+      this.setState({ result: 'Not Win Yet "Kale Kiri"' });
+    }
+  };
+  gameBoard(SoDo: Sodo): JSX.Element[] {
+    return this.props.SoDos.id.map((id) => {
+      if (SoDo.title[id - 1] !== 0) {
+        return (
+          <Col key={id} span={6}>
+            {SoDo.title[id - 1]}
+          </Col>
+        );
+      } else {
+        return (
+          <Col key={id} span={6} style={style}>
+            {' '}
+          </Col>
+        );
+      }
     });
   }
-  onNewGameClick = (sodo: Sodo): void => {
-    this.props.newgame(sodo);
+  onNewGameClick = (SoDo: Sodo): void => {
+    this.props.newgame(SoDo);
     this.setState({ move: 0 });
   };
   render() {
     return (
       <div>
-        <div className="gameBoard">{this.gameBoard(this.props.Sodos)}</div>
+        <div
+          className="gameBoard"
+          onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) =>
+            this.onKeyPressed(event)
+          }
+        >
+          {this.gameBoard(this.props.SoDos)}
+        </div>
         <div className="game">
-          <div onClick={() => this.onNewGameClick(this.props.Sodos)}>
-            New Game Pofiuz
-          </div>
+          <Button
+            type="primary"
+            onClick={() => this.onNewGameClick(this.props.SoDos)}
+          >
+            NEW GAME
+          </Button>
           <div>Move By Pofiu={this.state.move}</div>
-          <div>result Pofiuz={this.state.result}</div>
+          <Result title={this.state.result} />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ Sodos }: StoreState): { Sodos: Sodo } => {
-  return { Sodos };
+const mapStateToProps = ({ SoDos }: StoreState): { SoDos: Sodo } => {
+  return { SoDos };
 };
 
-export const Game = connect(mapStateToProps, { newgame, selecteditem })(game);
+export const Game = connect(mapStateToProps, {
+  newgame,
+  selecteditem,
+  keyboardmove,
+})(game);
