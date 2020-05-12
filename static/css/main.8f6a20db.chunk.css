@@ -1,0 +1,2 @@
+.game{display:flex;flex-direction:column;align-items:center;align-content:space-between}.gameBoard{display:grid;grid-template-columns:auto auto auto auto;background-color:#2196f3;padding:10px}.card{background-color:hsla(0,0%,100%,.8);border:1px solid rgba(0,0,0,.8);padding:20px;font-size:30px;text-align:center;cursor:pointer}
+/*# sourceMappingURL=main.8f6a20db.chunk.css.map */
